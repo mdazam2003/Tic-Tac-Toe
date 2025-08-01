@@ -82,34 +82,40 @@ const showWinner = (winner) =>
 
 const checkWinner = () => 
 {
+    let winner = false;
     for(let pattern of winPatterns)
     {
         let val1 = boxes[pattern[0]].innerText;
         let val2 = boxes[pattern[1]].innerText;
         let val3 = boxes[pattern[2]].innerText;
         
-        if(val1 != "" && val2 != "" && val3 != "")
+        if(val1 !== "" && val2 != "" && val3 != "")
         {
             if(val1 == val2 && val2 == val3)
             {
                 showWinner(val1);
-            }
-            else
-            {   let count = 0;
-                for(let val of boxes)
-                {
-                    if(val.innerText != "")
-                    {
-                        count++; 
-                    }
-                }
-
-                if(count == 9) message.innerText = "draw";
+                winner = true;
+                break;
             }
         }
-
     }
-}
+    
+    if(!winner) {
+        let isDraw = true;
+        boxes.forEach((box) => {
+            if(box.innerText === "") {
+                isDraw = false;
+            }
+        });
+
+        if(isDraw) {
+            message.innerText = "It's a Draw";
+            msgContainner.classList.remove("hide");
+            disabledBoxes();
+        }
+    }
+};
+
 
 const resetGame = () =>
 {
